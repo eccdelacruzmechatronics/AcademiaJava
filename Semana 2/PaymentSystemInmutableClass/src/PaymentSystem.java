@@ -1,20 +1,30 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PaymentSystem {
     public static void main(String[] args) {
-        // Crear un objeto inmutable para los detalles del pago
-        PaymentDetails creditCardDetails = new PaymentDetails(100.0, "USD", "ECC2002");
-        PaymentDetails payPalDetails = new PaymentDetails(200.0, "EUR", "ECC2025");
+    	// Crear una lista de notas de pago
+        List<String> notes = new ArrayList<>();
+        notes.add("Descuento extra aplicado: 5%");
+        notes.add("Pago en una sola exhibición");
 
-        // Crear diferentes métodos de pago utilizando los detalles
-        Payment creditCardPayment = new CreditCardPayment(creditCardDetails, "1234-5678-9012-3456");
-        Payment payPalPayment = new PaypalPayment(payPalDetails, "ecc@gmail.com");
+        // Crear un objeto PaymentDetails con una lista de notas
+        PaymentDetails details = new PaymentDetails(100.0, "CAD", "CustomerECC", notes);
 
-        // Procesar los pagos
-        System.out.println("Procesando pago con tarjeta de crédito:");
-        creditCardPayment.processPayment();
-        System.out.println();
+        // Imprimir los detalles del pago
+        System.out.println(details);
 
-        System.out.println("Procesando pago con PayPal:");
-        payPalPayment.processPayment();
+        // Intentar modificar la lista original (no afecta a la clase inmutable)
+        notes.add("Nota adicional: debería ignorarse");
+        System.out.println("Después de modificar la lista original:");
+        System.out.println(details);
+
+        // Intentar modificar la lista obtenida a través del getter (throws an exception)
+        try {
+            details.getPaymentNotes().add("Intento de modificación fallido");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("No se puede modificar la lista inmutable desde el getter.");
+        }
     }
 }
