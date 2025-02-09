@@ -1,0 +1,3 @@
+public enum Categoria {
+    SISTEMA, RECORDATORIO, URGENTE, PROMOCION, GENERAL;
+}
